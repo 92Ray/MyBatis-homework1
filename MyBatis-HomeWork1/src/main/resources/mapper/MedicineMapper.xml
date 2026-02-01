@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeus.mapper.MedicineMapper">
+
+
+	<!-- 전체 약 조회 -->
+	<select id="selectAllMedicines"
+		resultType="com.zeus.model.Medicine">
+		SELECT med_id AS medId, med_name AS medName, manufacturer, stock_qty AS
+		stockQty, regdate AS regDate
+		FROM Medicine
+	</select>
+
+	<!-- ID로 약 조회 -->
+	<select id="selectMedicineById" parameterType="int"
+		resultType="com.zeus.model.Medicine">
+		SELECT med_id AS medId, med_name AS medName, manufacturer, stock_qty AS
+		stockQty, regdate AS regDate
+		FROM Medicine
+		WHERE med_id = #{medId}
+	</select>
+
+	<!-- 약 추가 -->
+	<insert id="insertMedicine"
+		parameterType="com.zeus.model.Medicine" useGeneratedKeys="true"
+		keyProperty="medId">
+		INSERT INTO Medicine (med_id, med_name, manufacturer, stock_qty)
+		VALUES (Medicine_seq.NEXTVAL, #{medName}, #{manufacturer}, #{stockQty})
+	</insert>
+
+	<!-- 약 수정 -->
+	<update id="updateMedicine"
+		parameterType="com.zeus.model.Medicine">
+		UPDATE Medicine
+		SET med_name = #{medName},
+		manufacturer = #{manufacturer},
+		stock_qty = #{stockQty}
+		WHERE med_id = #{medId}
+	</update>
+
+	<!-- 약 삭제 -->
+	<delete id="deleteMedicine" parameterType="int">
+		DELETE FROM Medicine
+		WHERE med_id = #{medId}
+	</delete>
+
+</mapper>
