@@ -1,22 +1,26 @@
 package com.zeus.mapper;
 
-import com.zeus.model.Medicine;
 import java.util.List;
+
+import com.zeus.model.Medicine;
 
 public interface MedicineMapper {
 
-    // 전체 약 조회
-    List<Medicine> selectAllMedicines();
+    // 등록
+    int createMedicine(Medicine medicine);
 
-    // ID로 약 조회
-    Medicine selectMedicineById(int medId);
+    // 목록
+    List<Medicine> selectMedicineList();
 
-    // 약 추가
-    int insertMedicine(Medicine medicine);
+    // 상세
+    Medicine selectMedicine(Medicine medicine);
 
-    // 약 수정
+    // 수정
     int updateMedicine(Medicine medicine);
 
-    // 약 삭제
-    int deleteMedicine(int medId);
+    // 삭제
+    int deleteMedicine(Medicine medicine);
+
+    // 검색
+    List<Medicine> searchMedicine(Medicine medicine);
 }

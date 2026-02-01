@@ -1,16 +1,26 @@
 package com.zeus.service;
 
-import com.zeus.mapper.MedicineMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import java.util.List;
 
-@Service
-public class MedicineService {
+import com.zeus.model.Medicine;
 
-    @Autowired
-    private MedicineMapper medicineMapper;
+public interface MedicineService {
 
-    public void test() {
-        medicineMapper.selectAllMedicines();
-    }
+    // 등록
+    int registerMedicine(Medicine medicine) throws Exception;
+
+    // 목록
+    List<Medicine> medicineList() throws Exception;
+
+    // 상세
+    Medicine readMedicine(Medicine medicine) throws Exception;
+
+    // 수정
+    int updateMedicine(Medicine medicine) throws Exception;
+
+    // 삭제
+    int deleteMedicine(Medicine medicine) throws Exception;
+
+    // 검색
+    List<Medicine> searchMedicine(Medicine medicine) throws Exception;
 }

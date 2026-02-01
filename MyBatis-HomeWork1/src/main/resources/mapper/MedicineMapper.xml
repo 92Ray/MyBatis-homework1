@@ -1,47 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.zeus.mapper.MedicineMapper">
 
+    <!-- 등록 -->
+    <insert id="createMedicine" parameterType="com.zeus.model.Medicine">
+        INSERT INTO Medicine (
+            med_id,
+            med_name,
+            manufacturer,
+            stock_qty
+        )
+        VALUES (
+            Medicine_seq.NEXTVAL,
+            #{medName},
+            #{manufacturer},
+            #{stockQty}
+        )
+    </insert>
 
-	<!-- 전체 약 조회 -->
-	<select id="selectAllMedicines"
-		resultType="com.zeus.model.Medicine">
-		SELECT med_id AS medId, med_name AS medName, manufacturer, stock_qty AS
-		stockQty, regdate AS regDate
-		FROM Medicine
-	</select>
+    <!-- 목록 -->
+    <select id="selectMedicineList" resultType="com.zeus.model.Medicine">
+        SELECT
+            med_id       AS medId,
+            med_name     AS medName,
+            manufacturer,
+            stock_qty    AS stockQty,
+            regdate      AS regDate
+        FROM Medicine
+        ORDER BY med_id DESC
+    </select>
 
-	<!-- ID로 약 조회 -->
-	<select id="selectMedicineById" parameterType="int"
-		resultType="com.zeus.model.Medicine">
-		SELECT med_id AS medId, med_name AS medName, manufacturer, stock_qty AS
-		stockQty, regdate AS regDate
-		FROM Medicine
-		WHERE med_id = #{medId}
-	</select>
+    <!-- 상세 -->
+    <select id="selectMedicine" parameterType="com.zeus.model.Medicine"
+            resultType="com.zeus.model.Medicine">
+        SELECT
+            med_id       AS medId,
+            med_name     AS medName,
+            manufacturer,
+            stock_qty    AS stockQty,
+            regdate      AS regDate
+        FROM Medicine
+        WHERE med_id = #{medId}
+    </select>
 
-	<!-- 약 추가 -->
-	<insert id="insertMedicine"
-		parameterType="com.zeus.model.Medicine" useGeneratedKeys="true"
-		keyProperty="medId">
-		INSERT INTO Medicine (med_id, med_name, manufacturer, stock_qty)
-		VALUES (Medicine_seq.NEXTVAL, #{medName}, #{manufacturer}, #{stockQty})
-	</insert>
+    <!-- 수정 -->
+    <update id="updateMedicine" parameterType="com.zeus.model.Medicine">
+        UPDATE Medicine
+        SET
+            med_name     = #{medName},
+            manufacturer = #{manufacturer},
+            stock_qty    = #{stockQty}
+        WHERE med_id = #{medId}
+    </update>
 
-	<!-- 약 수정 -->
-	<update id="updateMedicine"
-		parameterType="com.zeus.model.Medicine">
-		UPDATE Medicine
-		SET med_name = #{medName},
-		manufacturer = #{manufacturer},
-		stock_qty = #{stockQty}
-		WHERE med_id = #{medId}
-	</update>
+    <!-- 삭제 -->
+    <delete id="deleteMedicine" parameterType="com.zeus.model.Medicine">
+        DELETE FROM Medicine
+        WHERE med_id = #{medId}
+    </delete>
 
-	<!-- 약 삭제 -->
-	<delete id="deleteMedicine" parameterType="int">
-		DELETE FROM Medicine
-		WHERE med_id = #{medId}
-	</delete>
+    <!-- 검색 -->
+    <select id="searchMedicine" parameterType="com.zeus.model.Medicine"
+            resultType="com.zeus.model.Medicine">
+        SELECT
+            med_id       AS medId,
+            med_name     AS medName,
+            manufacturer,
+            stock_qty    AS stockQty,
+            regdate      AS regDate
+        FROM Medicine
+        WHERE 1 = 1
+        <if test="medName != null and medName != ''">
+            AND med_name LIKE '%' || #{medName} || '%'
+        </if>
+        <if test="manufacturer != null and manufacturer != ''">
+            AND manufacturer LIKE '%' || #{manufacturer} || '%'
+        </if>
+    </select>
 
 </mapper>
