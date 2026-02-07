@@ -1,12 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
-<generatorConfiguration>
-  <context id="context1">
-    <jdbcConnection connectionURL="???" driverClass="???" password="???" userId="???" />
-    <javaModelGenerator targetPackage="???" targetProject="???" />
-    <javaClientGenerator targetPackage="???" targetProject="???" type="XMLMAPPER" />
-    <table schema="???" tableName="???">
-      <columnOverride column="???" property="???" />
-    </table>
-  </context>
-</generatorConfiguration>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<!-- underscore_case 컬럼을 camelCase 필드로 자동 매핑 -->
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+	</settings>
+</configuration>
