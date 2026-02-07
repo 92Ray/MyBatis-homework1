@@ -5,80 +5,76 @@
 
 <mapper namespace="com.zeus.mapper.MedicineMapper">
 
+    <!-- ResultMap 정의 -->
+    <resultMap id="MedicineResultMap" type="com.zeus.model.Medicine">
+        <id property="medId" column="medId"/>
+        <result property="medName" column="medName"/>
+        <result property="manufacturer" column="manufacturer"/>
+        <result property="stockQty" column="stockQty"/>
+        <result property="regDate" column="regDate"/>
+    </resultMap>
+
     <!-- 등록 -->
     <insert id="createMedicine" parameterType="com.zeus.model.Medicine">
         INSERT INTO Medicine (
-            med_id,
-            med_name,
+            medId,
+            medName,
             manufacturer,
-            stock_qty
+            stockQty,
+            regDate
         )
         VALUES (
             Medicine_seq.NEXTVAL,
             #{medName},
             #{manufacturer},
-            #{stockQty}
+            #{stockQty},
+            SYSDATE
         )
     </insert>
 
     <!-- 목록 -->
-    <select id="selectMedicineList" resultType="com.zeus.model.Medicine">
-        SELECT
-            med_id       AS medId,
-            med_name     AS medName,
-            manufacturer,
-            stock_qty    AS stockQty,
-            regdate      AS regDate
+    <select id="selectMedicineList" resultMap="MedicineResultMap">
+        SELECT medId, medName, manufacturer, stockQty, regDate
         FROM Medicine
-        ORDER BY med_id DESC
+        ORDER BY medId DESC
     </select>
 
     <!-- 상세 -->
-    <select id="selectMedicine" parameterType="com.zeus.model.Medicine"
-            resultType="com.zeus.model.Medicine">
-        SELECT
-            med_id       AS medId,
-            med_name     AS medName,
-            manufacturer,
-            stock_qty    AS stockQty,
-            regdate      AS regDate
+    <select id="selectMedicine" parameterType="com.zeus.model.Medicine" resultMap="MedicineResultMap">
+        SELECT medId, medName, manufacturer, stockQty, regDate
         FROM Medicine
-        WHERE med_id = #{medId}
+        WHERE medId = #{medId}
     </select>
 
     <!-- 수정 -->
     <update id="updateMedicine" parameterType="com.zeus.model.Medicine">
         UPDATE Medicine
         SET
-            med_name     = #{medName},
+            medName = #{medName},
             manufacturer = #{manufacturer},
-            stock_qty    = #{stockQty}
-        WHERE med_id = #{medId}
+            stockQty = #{stockQty}
+        WHERE medId = #{medId}
     </update>
 
     <!-- 삭제 -->
     <delete id="deleteMedicine" parameterType="com.zeus.model.Medicine">
         DELETE FROM Medicine
-        WHERE med_id = #{medId}
+        WHERE medId = #{medId}
     </delete>
 
     <!-- 검색 -->
-    <select id="searchMedicine" parameterType="com.zeus.model.Medicine"
-            resultType="com.zeus.model.Medicine">
-        SELECT
-            med_id       AS medId,
-            med_name     AS medName,
-            manufacturer,
-            stock_qty    AS stockQty,
-            regdate      AS regDate
+    <select id="searchMedicine" parameterType="com.zeus.model.Medicine" resultMap="MedicineResultMap">
+        SELECT medId, medName, manufacturer, stockQty, regDate
         FROM Medicine
-        WHERE 1 = 1
-        <if test="medName != null and medName != ''">
-            AND med_name LIKE '%' || #{medName} || '%'
-        </if>
-        <if test="manufacturer != null and manufacturer != ''">
-            AND manufacturer LIKE '%' || #{manufacturer} || '%'
-        </if>
+        <where>
+            <if test="medName != null and medName != ''">
+                AND medName LIKE '%' || #{medName} || '%'
+            </if>
+            <if test="manufacturer != null and manufacturer != ''">
+                AND manufacturer LIKE '%' || #{manufacturer} || '%'
+            </if>
+        </where>
+        ORDER BY medId DESC
     </select>
 
 </mapper>
